@@ -1,5 +1,6 @@
 const electron = require('electron');
 const { app, BrowserWindow, Menu } = electron;
+const shell = electron.shell;
 
 const path = require('path');
 const url = require('url');
@@ -14,7 +15,7 @@ function createWindow() {
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
+        pathname: path.join(__dirname, 'src/index/index.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -35,15 +36,29 @@ function createWindow() {
             label: "Меню",
             submenu: [
                 {label: 'Вызвать девочек'},
-                {label: 'Заказать пиво'},
-                {label: 'Поработь над проектов'},
+                { type: 'separator'},
+                {
+                    label: 'Открыть Проводник',
+                    click(){
+                        console.log('Открыл проводник')
+                    }
+                },
+                {
+                    label: 'Открыть гугл',
+                    click(){
+                        shell.openExternal('http://google.com')
+                    }
+                },
                 {
                     label: 'Выход',
                     click () {
                         app.quit();
                     }
                 },
-            ]
+            ],
+        },
+        {
+            label: "Инфо"
         }
     ]);
 
