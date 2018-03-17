@@ -1,9 +1,28 @@
 const electron = require('electron');
-const { app, BrowserWindow, Menu } = electron;
+const { app, BrowserWindow, Menu, Notification} = electron;
 const shell = electron.shell;
-
 const path = require('path');
 const url = require('url');
+
+
+// In main process.
+const {ipcMain} = require('electron');
+ipcMain.on('fuck-my-modal', (event, arg) => {
+
+    event.sender.send('asynchronous-reply', 'pong');
+
+    const notification = {
+        title: 'Вот куда тебе идти',
+        body: 'Просто иди на хуй'
+    };
+
+
+    const myNotification = new Notification(notification);
+    myNotification.show();
+});
+
+
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -11,7 +30,10 @@ let mainWindow;
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 600});
+    mainWindow = new BrowserWindow({width: 1200, height: 800});
+
+    // отобразить дев тулс
+    mainWindow.webContents.openDevTools();
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
@@ -90,3 +112,4 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+

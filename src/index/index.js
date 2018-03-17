@@ -1,6 +1,10 @@
 const electron = require('electron');
 const BrowserWindow = electron.remote.BrowserWindow;
 const path = require('path');
+const { ipcRenderer } = require('electron');
+//
+// const remote = electron.remote;
+// const window = remote.getCurrentWindow();
 
 const notifyBtn = document.getElementById('notifyBtn');
 
@@ -20,3 +24,8 @@ notifyBtn.addEventListener('click', (event) => {
     win.show();
 });
 
+ipcRenderer.on('asynchronous-reply', (event, arg) => {
+    console.log(123456);
+    console.log(arg);
+    console.log(event);
+});
